@@ -7,6 +7,9 @@ maintainer:          danburton.email@gmail.com
 build-type:          Simple
 cabal-version:       >=1.10
 
+extra-source-files:
+  README.md
+
 library
   exposed-modules:
       Yesod.GitRev
