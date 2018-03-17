@@ -14,10 +14,11 @@ module Yesod.GitRev
 
 import Data.Aeson
 import Yesod.Core
+import Yesod.Core.Types
 import Yesod.GitRev.Data
 
-getGitRevR :: Yesod master => HandlerT GitRev (HandlerT master IO) TypedContent
-getGitRevR = getYesod >>= \GitRev{..} -> lift $ selectRep $ do
+getGitRevR :: Yesod site => SubHandlerFor GitRev site TypedContent
+getGitRevR = getSubYesod >>= \GitRev{..} -> liftHandler $ selectRep $ do
   provideRep $ defaultLayout $ do
     [whamlet|
       <dl>
@@ -34,5 +35,5 @@ getGitRevR = getYesod >>= \GitRev{..} -> lift $ selectRep $ do
     , "dirty"  .= gitRevDirty
     ]
 
-instance Yesod master => YesodSubDispatch GitRev (HandlerT master IO) where
+instance Yesod site => YesodSubDispatch GitRev site where
   yesodSubDispatch = $(mkYesodSubDispatch resourcesGitRev)
