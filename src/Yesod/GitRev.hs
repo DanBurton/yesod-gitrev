@@ -13,6 +13,7 @@ module Yesod.GitRev
   ) where
 
 import Data.Aeson
+import GitHash
 import Yesod.Core
 import Yesod.Core.Types
 import Yesod.GitRev.Data
@@ -23,16 +24,16 @@ getGitRevR = getSubYesod >>= \GitRev{..} -> liftHandler $ selectRep $ do
     [whamlet|
       <dl>
         <dt>Hash
-        <dd>#{gitRevHash}
+        <dd>#{giHash gitRevInfo}
         <dt>Branch
-        <dd>#{gitRevBranch}
+        <dd>#{giBranch gitRevInfo}
         <dt>Dirty
-        <dd>#{gitRevDirty}
+        <dd>#{giDirty gitRevInfo}
     |]
   provideRep $ return $ object
-    [ "hash"   .= gitRevHash
-    , "branch" .= gitRevBranch
-    , "dirty"  .= gitRevDirty
+    [ "hash"   .= giHash gitRevInfo
+    , "branch" .= giBranch gitRevInfo
+    , "dirty"  .= giDirty gitRevInfo
     ]
 
 instance Yesod site => YesodSubDispatch GitRev site where
