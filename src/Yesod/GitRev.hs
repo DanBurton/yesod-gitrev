@@ -28,11 +28,21 @@ getGitRevR = getSubYesod >>= \GitRev{..} -> liftHandler $ selectRep $ do
         <dd>#{gitRevBranch}
         <dt>Dirty
         <dd>#{gitRevDirty}
+        <dt>Commit Date
+        <dd>#{gitRevCommitDate}
+        <dt>Commit Count
+        <dd>#{gitRevCommitCount}
+        <dt>Commit Message
+        <dd>#{gitRevCommitMessage}
     |]
+  -- TODO: derive & use toJSON
   provideRep $ return $ object
     [ "hash"   .= gitRevHash
     , "branch" .= gitRevBranch
     , "dirty"  .= gitRevDirty
+    , "commitDate" .= gitRevCommitDate
+    , "commitCount" .= gitRevCommitCount
+    , "commitMessage" .= gitRevCommitMessage
     ]
 
 instance Yesod site => YesodSubDispatch GitRev site where
