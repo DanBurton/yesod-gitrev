@@ -5,6 +5,9 @@ synopsis:
 author:              Dan Burton
 maintainer:          danburton.email@gmail.com
 
+category: Web
+description: (Please see the readme) https://github.com/DanBurton/yesod-gitrev#readme
+
 homepage:            https://github.com/DanBurton/yesod-gitrev
 bug-reports:         https://github.com/DanBurton/yesod-gitrev/issues
 
@@ -15,7 +18,7 @@ license-file:        LICENSE
 build-type:          Simple
 cabal-version:       >=1.10
 
-tested-with: GHC == 8.6.3, GHC == 8.4.4, GHC == 8.2.2, GHC == 8.0.2
+tested-with: GHC == 8.6.3, GHC == 8.4.4
 
 extra-source-files:
   README.md ChangeLog.md
