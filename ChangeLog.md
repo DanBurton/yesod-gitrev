@@ -1,4 +1,4 @@
-## 0.2.1.0
+## 0.2.1
 
 - Move over to `githash`
 
