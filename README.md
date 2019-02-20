@@ -1,5 +1,7 @@
 A subsite for displaying git information.
 
+[![Hackage](https://img.shields.io/hackage/v/yesod-gitrev.svg)](https://hackage.haskell.org/package/yesod-gitrev) [![Build Status](https://travis-ci.org/DanBurton/yesod-gitrev.svg)](https://travis-ci.org/DanBurton/yesod-gitrev)
+
 You can use the `gitRev` splice (or `tGitRev` typed splice)
 to generate a value of type `GitRev`.
 Put this in your app's foundation,
