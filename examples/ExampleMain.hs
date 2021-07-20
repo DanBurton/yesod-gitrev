@@ -12,6 +12,10 @@ module ExampleMain where
 
 import Yesod.Core
 import Yesod.GitRev
+import ExampleTH (ensureGitContext)
+
+-- In case this is tested outside of a git context
+$ensureGitContext
 
 data Master = Master
   { getGitRev :: GitRev
@@ -25,3 +29,6 @@ instance Yesod Master
 
 main :: IO ()
 main = warp 3000 $ Master $$(tGitRev)
+
+main2 :: IO ()
+main2 = warp 3000 $ Master $(gitRev)

@@ -2,12 +2,19 @@
 {-# LANGUAGE TemplateHaskell #-}
 {-# LANGUAGE QuasiQuotes #-}
 {-# LANGUAGE TypeFamilies #-}
+{-# LANGUAGE CPP #-}
 
 module Yesod.GitRev.Data where
 
 import GitHash
-import Language.Haskell.TH.Syntax (Lift, Q, TExp, Exp, unTypeQ)
+import Language.Haskell.TH.Syntax (Lift, Q, Exp, unTypeQ)
 import Yesod.Core
+
+#if MIN_VERSION_GLASGOW_HASKELL(9,0,0,0)
+import Language.Haskell.TH (Code, examineCode)
+#else
+import Language.Haskell.TH.Syntax(TExp)
+#endif
 
 -- | You should not construct one of these yourself.
 -- Instead, use gitRev or tGitRev.
@@ -25,19 +32,32 @@ data GitRev = GitRev
   }
   deriving Lift
 
+type TSpliceable a =
+#if MIN_VERSION_GLASGOW_HASKELL(9,0,0,0)
+  Code Q a
+#else
+  Q (TExp a)
+#endif
+
 mkYesodSubData "GitRev" [parseRoutes|
 / GitRevR GET
 |]
 
 -- | A typed splice for creating a GitRev.
 -- Example: $$(tGitRev) :: GitRev
-tGitRev :: Q (TExp GitRev)
+tGitRev :: TSpliceable GitRev
 tGitRev = [|| gitRevFromGitInfo $$(tGitInfoCwd) ||]
 
 -- | An untyped splice for creating a GitRev.
 -- Example: $(gitRev) :: GitRev
 gitRev :: Q Exp
-gitRev = unTypeQ tGitRev
+gitRev = unTypeQ . examine $ tGitRev
+  where
+#if MIN_VERSION_GLASGOW_HASKELL(9,0,0,0)
+    examine = examineCode
+#else
+    examine = id
+#endif
 
 -- This function is considered to be "internal".
 -- Changes to this function will not be accounted for in minor version bumps.

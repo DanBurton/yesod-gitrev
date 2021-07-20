@@ -43,10 +43,13 @@ test-suite examples
   main-is: TestExamples.hs
   build-depends:
       base
+    , template-haskell
+    , process
     , yesod-core
     , yesod-gitrev
   other-modules:
       ExampleMain
+      ExampleTH
   default-language: Haskell2010
 
 
